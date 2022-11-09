@@ -168,7 +168,6 @@ function plural(noun) {
 
     return plural
 }
-
 function isVowel(singleChar) {
     const vowel = ["a", "e", "i", "o", "u"]
     const found = vowel.includes(singleChar)
