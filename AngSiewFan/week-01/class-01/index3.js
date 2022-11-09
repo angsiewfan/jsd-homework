@@ -128,18 +128,57 @@ if (message.trim() === "") {
 // The Pluralizer
 // Write an if statement that works with a noun and a number. Make the noun plural if necessary!! 
 //Make this as accurate as possible (using the rules described here)
-function plural(words) {
-    // regular, add s
-    // ends with –s, –ss, –sh, –ch, –x, or –z, add es
-    // ends with –f or –fe, the f or –fe, replace with ve
+function plural(noun) {
+    // normal, add s
+    // ends with y, preceded by vowel, add s
+    // ends with y, preceded by consonant, replace y with ies
+    // ends with –s, –ss, –sh, –ch, –x, or –z, end in o (preceded by consonant), add es
+    // ends with is, replace with es
+    // ends with –f or –fe, the f or –fe, replace with ves
+    // end with us, replace us to i
+    // ends with ix, replace is with ices
+    // eau, replace with eaux
+    // oo to ee
+    // a to ae
+    // ouse to ice
+    let plural = ""
+    let endWith = noun.substring(noun.length - 1)
+    let endWith2 = noun.substring(noun.length - 2)
+
+    if (endWith == "y") {
+        if (isVowel(endWith2)) {
+            plural = noun + "s"
+        } else if (endWith2) {
+            plural = noun + "ies"
+        }
+        plural = noun + "s"
+    } else if (endWith == "s" || endWith2 == "ss" || endWith2 == "sh" || endWith2 == "ch" 
+    || endWith == "x" || endWith == "z" || (endWith == "o" && !isVowel(endWith2))) {
+        plural = noun + "es"
+    } else if (endWith == "is") {
+        plural = noun.replace(endWith, "es")
+    } else if (endWith == "f") {
+        plural = noun.replace(endWith, "ves")
+    } else if (endWith2 == "fe") {
+        plural = noun.replace(endWith2, "ves")
+    }
+    else {
+        plural = noun + "s"
+    }
+
+    return plural
 }
 
-// pause - no electricity
-// function isVowel(singleChar) {
-//     const vowel = ["a", "e", "i", "o", "u"]
-    
-//     for (let i=0; i < )
-// }
+function isVowel(singleChar) {
+    const vowel = ["a", "e", "i", "o", "u"]
+    const found = vowel.includes(singleChar)
+
+    if (found) {
+        return true
+    } else {
+        return false
+    }
+}
 
 // The Rest
 // Implement a Rock, Paper, Scissors single game
