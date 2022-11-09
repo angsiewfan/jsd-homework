@@ -59,8 +59,8 @@ for (testScore=60; testScore <=100; testScore++) {
 //log out the nickname of every score from 1 to 8 on a par 5 hole
 // Bonus: Use a nested for loop to run the same piece of code, but with par changing from 3 to 5
 // Bonus: Generate a random par for each iteration
-let score = 7
-let par = 3
+let score = 8
+let par = 5
 if (score === 1) {
     console.log("Hole in one")
 } else if (score <= par - 2) {
