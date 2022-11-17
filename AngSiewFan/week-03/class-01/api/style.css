@@ -1,0 +1,14 @@
+/* * {
+    border: 1px solid red;
+} */
+
+/* 1fr = 1 fraction = the section will divide into half */
+section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+h2 {
+    font-style: normal;
+    font-size: medium;
+}

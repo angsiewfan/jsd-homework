@@ -913,31 +913,124 @@ let glossary = [
 // First Step
 // Iterate through all of the data and for each item, generate some HTML from it.
 //glossary.forEach((item) => console.log(item.definition))
-let body = document.querySelector("body")
-let h1 = document.createElement("h1")
-h1.innerHTML = "Glossary Data"
+const body = document.querySelector("body")
+const h1 = document.createElement("h1")
+h1.innerHTML = "Interactive Glossary"
 document.body.appendChild(h1)
 
-// glossary.forEach((item) => {
-//     let p = document.createElement("p")
-//     p.innerHTML = `${item.term} ${item.class} ${item.definition}`
-//     document.body.appendChild(p)
-// }
-// )
+const input = document.createElement("input")
+document.body.appendChild(input)
 
-let input = document.querySelector("input")
-function handleOnChange(event) {
-    let div = document.querySelector("div");
-    div.innerHTML = ""
+input.insertAdjacentHTML('beforeBegin', "Term: ");
+ 
+input.insertAdjacentHTML('afterend', "&nbsp;&nbsp;")
 
-    let term = event.target.value;
+const button = document.createElement("button")
+button.innerHTML = "Search"
+document.body.appendChild(button)
 
+// Second Step
+// Add search functionality! Add an input at the top of the page and a button. 
+// When you click the button, show all related definitions (use whatever the user typed in to show relevant results).
+// Bonus: Make this happen whenever the user presses a key!
+let h2 = document.createElement("h2");
+    
+// events
+function search(event) {
+    h2.innerHTML = "";
+    document.body.appendChild(h2);
+
+    // let termInput = event.target.value;
+    let termInput = input.value;
+    
     glossary
-        .filter((item) => item.term === term)
+        .filter((item) => item.term.toUpperCase() === termInput.toUpperCase())
+
         .forEach((item) => {
-            let p = document.createElement(p)
-            p.innerHTML = `${item.definition}`
-            div.appendChild(p)
-        })
+          let p = document.createElement("p")
+          p.innerHTML = `${item.definition}`
+          h2.appendChild(p)
+        });
 }
-input.addEventListener("keypress", handleOnChange)
+button.addEventListener("click", search);
+
+// Third Step
+// Add filter functionality! At the top of the page, add a dropdown menu with all of the class names. 
+// When the user selects one of those classes, show all of the terms from that particular class.
+// Bonus: Make the search and filter functionality work together!
+button.insertAdjacentHTML('afterend', "<br><br>")
+let select = document.createElement("select")
+select.name = "classname"
+select.id = "classid"
+document.body.appendChild(select)
+
+select.insertAdjacentHTML('beforeBegin', "Class: ");
+
+function filterClass(glossary) {
+  const key = 'class';
+  const glossaryUniqueByClass = [...new Map(glossary.map(item =>
+    [item[key], item])).values()];
+  
+    glossaryUniqueByClass.forEach((item) => {
+    let option = document.createElement("option");
+    option.value = "0" + item.class;
+    option.textContent = "0" + item.class;
+    document.getElementById("classid").appendChild(option);
+  })
+
+}
+filterClass(glossary)
+
+function selectClass(event) {
+  h2.innerHTML = "";
+  document.body.appendChild(h2)
+
+  let selectedvalue = parseInt(select.value);
+  // how to add the span style
+  glossary
+        .filter((item) => item.class === selectedvalue)
+
+        .forEach((item) => {
+          let p = document.createElement("p")
+          p.innerHTML = `<span style="color: #ff0000">${item.term}</span> 
+          <br> ${item.definition}`
+          h2.appendChild(p)
+        });
+}
+select.addEventListener("change", selectClass)
+
+select.insertAdjacentHTML('afterend', "<br><br>")
+
+// Fourth Step
+// Add tag functionality! At the top of the page, have checkboxes that have the tags stored in them. When the user clicks the tags, show all relevant terms!
+// Bonus: Make the search, filter and tag functionality work together!
+function filterTags(glossary) {
+  
+    const key = 'tags';
+    const glossaryUniqueByTags = [...new Map(glossary.map(item =>
+    [item[key], item])).values()];
+
+    glossaryUniqueByTags.forEach((item) => {
+
+    let div = document.createElement("div")
+    document.body.appendChild(div)
+      
+    let label = document.createElement('label');
+    label.htmlFor = "id";
+    label.appendChild(document.createTextNode(`${item.tags}`));
+    
+    let checkbox = document.createElement("input")
+    checkbox.type = "checkbox";
+    checkbox.name = "name";
+    checkbox.value = "value";
+    checkbox.id = "id";
+
+    div.appendChild(checkbox);
+    div.appendChild(label);
+  })
+
+}
+filterTags(glossary)
+
+
+
